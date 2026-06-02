@@ -1,0 +1,134 @@
+/* ─── INTRO ─── */
+.intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s7);
+  align-items: start;
+  margin-bottom: var(--s6);
+}
+
+.textoIntro {
+  /* hereda estilos globales */
+}
+
+/* ─── CIFRAS ─── */
+.cifras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s3);
+}
+
+.cifraItem {
+  border-top: 2px solid var(--unt-oro);
+  padding-top: var(--s2);
+}
+
+.cifraVal {
+  font-family: var(--serif);
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--unt-azul);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.cifraLbl {
+  font-size: 13px;
+  color: var(--sutil);
+  margin-top: 4px;
+}
+
+/* ─── TABS ─── */
+.tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 2px solid var(--borde);
+  margin-bottom: var(--s4);
+}
+
+.tab {
+  padding: 10px 24px;
+  background: none;
+  border: none;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--sutil);
+  cursor: pointer;
+  position: relative;
+  transition: color var(--transicion);
+  margin-bottom: -2px;
+}
+
+.tab:hover {
+  color: var(--unt-azul);
+}
+
+.tabActivo {
+  color: var(--unt-azul);
+}
+
+.tabActivo::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--unt-oro);
+  border-radius: 2px 2px 0 0;
+}
+
+/* ─── TABLA ─── */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla thead th {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sutil);
+  padding: var(--s2) var(--s3);
+  border-bottom: 2px solid var(--unt-azul);
+  text-align: left;
+}
+
+.tabla tbody td {
+  padding: var(--s2) var(--s3);
+  border-bottom: 1px solid var(--borde);
+  color: var(--texto);
+  vertical-align: middle;
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla tbody tr:hover td {
+  background: var(--fondo-alt);
+}
+
+.entidad {
+  font-weight: 600;
+  color: var(--negro) !important;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 720px) {
+  .intro {
+    grid-template-columns: 1fr;
+  }
+
+  .tabla {
+    font-size: 12px;
+  }
+
+  .tabla thead th,
+  .tabla tbody td {
+    padding: var(--s1) var(--s2);
+  }
+}

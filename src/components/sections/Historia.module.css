@@ -1,0 +1,143 @@
+/* ─── LAYOUT ─── */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: var(--s7);
+  margin-top: var(--s5);
+}
+
+/* ─── INTRO ─── */
+.intro {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+
+.anioFundacion {
+  font-family: var(--serif);
+  font-size: 96px;
+  font-weight: 700;
+  color: var(--unt-azul);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  opacity: 0.08;
+  margin-bottom: var(--s2);
+  user-select: none;
+}
+
+.anioReal {
+  font-family: var(--serif);
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--unt-azul);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.anioSub {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sutil);
+  margin-top: 6px;
+  margin-bottom: var(--s4);
+}
+
+.introTexto {
+  font-size: 14px;
+  color: var(--sutil);
+  line-height: 1.75;
+  margin-bottom: var(--s3);
+}
+
+/* ─── TIMELINE ─── */
+.timeline {
+  position: relative;
+  padding-left: var(--s4);
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: var(--borde);
+}
+
+/* ─── ITEM ─── */
+.item {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--s3);
+  padding-bottom: var(--s4);
+  position: relative;
+}
+
+.item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--s4) * -1 - 4px);
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--blanco);
+  border: 2px solid var(--borde);
+}
+
+.destacado::before {
+  background: var(--unt-oro);
+  border-color: var(--unt-oro);
+}
+
+/* ─── AÑO ─── */
+.anio {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--unt-azul);
+  text-align: right;
+  padding-right: var(--s3);
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ─── CONTENIDO ─── */
+.contenido {
+  padding-bottom: var(--s2);
+}
+
+.titulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--negro);
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+
+.star {
+  font-size: 12px;
+}
+
+.descripcion {
+  font-size: 13px;
+  color: var(--sutil);
+  line-height: 1.6;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .intro {
+    position: static;
+  }
+
+  .anioFundacion {
+    display: none;
+  }
+}

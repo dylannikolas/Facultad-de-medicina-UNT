@@ -1,0 +1,88 @@
+/* ─── MISIÓN Y VISIÓN ─── */
+.mvGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+  margin: var(--s5) 0;
+}
+
+.mvCard {
+  padding: var(--s5) var(--s4);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  border-left: 3px solid var(--acento);
+}
+
+.mvCard h3 {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--acento);
+  margin-bottom: var(--s2);
+}
+
+.mvCard p {
+  font-size: 15px;
+  color: var(--texto);
+  line-height: 1.75;
+}
+
+/* ─── OBJETIVOS ─── */
+.objetivosLabel {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sutil);
+  margin-bottom: var(--s3);
+  padding-bottom: var(--s2);
+  border-bottom: 1px solid var(--borde);
+}
+
+.objGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s1);
+}
+
+.objItem {
+  display: flex;
+  gap: var(--s2);
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: var(--radio);
+  transition: background var(--transicion);
+}
+
+.objItem:hover {
+  background: var(--fondo-alt);
+}
+
+.objNum {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--borde);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 32px;
+  text-align: right;
+  margin-top: -2px;
+}
+
+.objTxt {
+  font-size: 14px;
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 720px) {
+  .mvGrid,
+  .objGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,46 @@
+:root {
+  /* ─── COLORES UNT (NO MODIFICAR) ─── */
+  --unt-azul: #002F6C;
+  --unt-azul-dark: #001E47;
+  --unt-azul-mid: #0D4EA6;
+  --unt-oro: #E8A800;
+  --unt-blanco: #FFFFFF;
+
+  /* ─── ACENTO POR ESCUELA ─── */
+  /* Medicina: teal médico */
+  --acento: #0B6E8A;
+  --acento-light: #E8F4F8;
+  --acento-dark: #074F64;
+
+  /* ─── NEUTROS ─── */
+  --negro: #111827;
+  --texto: #374151;
+  --sutil: #6B7280;
+  --borde: #E5E7EB;
+  --fondo-alt: #F9FAFB;
+  --blanco: #FFFFFF;
+
+  /* ─── TIPOGRAFÍA ─── */
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+
+  /* ─── ESPACIADO (base 8px) ─── */
+  --s1: 8px;
+  --s2: 16px;
+  --s3: 24px;
+  --s4: 32px;
+  --s5: 40px;
+  --s6: 48px;
+  --s7: 64px;
+  --s8: 96px;
+
+  /* ─── SOMBRAS ─── */
+  --sombra: 0 4px 20px rgba(0, 47, 108, 0.10);
+  --sombra-hover: 0 8px 32px rgba(0, 47, 108, 0.18);
+
+  /* ─── BORDES ─── */
+  --radio: 8px;
+
+  /* ─── TRANSICIONES ─── */
+  --transicion: 0.2s ease;
+}
