@@ -6,15 +6,12 @@ import styles from './PlanEstudios.module.css'
 function useCountUp(target: number, duration = 1800, visible: boolean) {
   const [count, setCount] = useState(0)
   const rafRef     = useRef<number>(0)
-  const doneRef    = useRef(false)
+  const startedRef = useRef(false)
 
+  // Efecto que inicia la animación — sin cleanup para no cancelarla
   useEffect(() => {
-    // Solo corre una vez cuando visible se vuelve true
-    if (!visible || doneRef.current) return
-    doneRef.current = true
-
-    // Cancela cualquier frame previo
-    cancelAnimationFrame(rafRef.current)
+    if (!visible || startedRef.current) return
+    startedRef.current = true
 
     const startTime = performance.now()
 
@@ -22,8 +19,7 @@ function useCountUp(target: number, duration = 1800, visible: boolean) {
       const elapsed  = now - startTime
       const progress = Math.min(elapsed / duration, 1)
       const eased    = 1 - Math.pow(1 - progress, 4)
-      const current  = Math.round(eased * target)
-      setCount(current)
+      setCount(Math.round(eased * target))
 
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(animate)
@@ -33,9 +29,12 @@ function useCountUp(target: number, duration = 1800, visible: boolean) {
     }
 
     rafRef.current = requestAnimationFrame(animate)
+  }, [visible, target, duration])
 
+  // Cleanup solo al desmontar el componente
+  useEffect(() => {
     return () => cancelAnimationFrame(rafRef.current)
-  }, [visible]) // solo depende de visible
+  }, [])
 
   return count
 }
