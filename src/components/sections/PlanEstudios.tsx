@@ -2,42 +2,42 @@ import { useEffect, useRef, useState } from 'react'
 import { programa } from '../../data/programa'
 import styles from './PlanEstudios.module.css'
 
-// ─── Hook limpio basado en prop "visible" ───────────────
+// ─── Hook compatible con React StrictMode ───────────────
 function useCountUp(target: number, duration = 1800, visible: boolean) {
   const [count, setCount] = useState(0)
-  const rafRef     = useRef<number>(0)
-  const startedRef = useRef(false)
 
-  // Efecto que inicia la animación — sin cleanup para no cancelarla
   useEffect(() => {
-    if (!visible || startedRef.current) return
-    startedRef.current = true
+    if (!visible) return
 
+    // Variable local al closure — cada invocación del efecto
+    // obtiene su propia flag. StrictMode cancela la primera
+    // y la segunda corre limpia hasta completar.
+    let cancelled = false
     const startTime = performance.now()
 
     const animate = (now: number) => {
+      if (cancelled) return
+
       const elapsed  = now - startTime
       const progress = Math.min(elapsed / duration, 1)
       const eased    = 1 - Math.pow(1 - progress, 4)
       setCount(Math.round(eased * target))
 
       if (progress < 1) {
-        rafRef.current = requestAnimationFrame(animate)
+        requestAnimationFrame(animate)
       } else {
         setCount(target) // valor exacto garantizado
       }
     }
 
-    rafRef.current = requestAnimationFrame(animate)
-  }, [visible, target, duration])
+    requestAnimationFrame(animate)
 
-  // Cleanup solo al desmontar el componente
-  useEffect(() => {
-    return () => cancelAnimationFrame(rafRef.current)
-  }, [])
+    return () => { cancelled = true }
+  }, [visible, target, duration])
 
   return count
 }
+
 
 // ─── Componente: dato animado ───────────────────────────
 function DatoAnimado({
