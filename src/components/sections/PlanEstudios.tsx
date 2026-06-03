@@ -2,45 +2,42 @@ import { useEffect, useRef, useState } from 'react'
 import { programa } from '../../data/programa'
 import styles from './PlanEstudios.module.css'
 
-// ─── Hook robusto con flag "ya empezó" ──────────────────
-function useCountUp(target: number, duration = 1800) {
+// ─── Hook limpio basado en prop "visible" ───────────────
+function useCountUp(target: number, duration = 1800, visible: boolean) {
   const [count, setCount] = useState(0)
-  const rafRef    = useRef<number>(0)
-  const startedRef = useRef(false)  // ← evita reinicios
+  const rafRef     = useRef<number>(0)
+  const doneRef    = useRef(false)
 
-  const start = () => {
-    if (startedRef.current) return  // ya está corriendo
-    startedRef.current = true
+  useEffect(() => {
+    // Solo corre una vez cuando visible se vuelve true
+    if (!visible || doneRef.current) return
+    doneRef.current = true
+
+    // Cancela cualquier frame previo
+    cancelAnimationFrame(rafRef.current)
 
     const startTime = performance.now()
 
     const animate = (now: number) => {
       const elapsed  = now - startTime
       const progress = Math.min(elapsed / duration, 1)
-      // easeOutQuart: empieza rápido, termina suave
       const eased    = 1 - Math.pow(1 - progress, 4)
       const current  = Math.round(eased * target)
-
       setCount(current)
 
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(animate)
       } else {
-        setCount(target)  // garantiza valor exacto al final
+        setCount(target) // valor exacto garantizado
       }
     }
 
     rafRef.current = requestAnimationFrame(animate)
-  }
 
-  // Limpieza solo al desmontar el componente
-  useEffect(() => {
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [])
+    return () => cancelAnimationFrame(rafRef.current)
+  }, [visible]) // solo depende de visible
 
-  return { count, start }
+  return count
 }
 
 // ─── Componente: dato animado ───────────────────────────
@@ -49,20 +46,15 @@ function DatoAnimado({
   sufijo = '',
   etiqueta,
   nota,
-  onReady,
+  visible,
 }: {
   valor: number
   sufijo?: string
   etiqueta: string
   nota: string
-  onReady: (startFn: () => void) => void
+  visible: boolean
 }) {
-  const { count, start } = useCountUp(valor)
-
-  // Le pasa la función start al padre para que la llame
-  useEffect(() => {
-    onReady(start)
-  }, [])  // eslint-disable-line
+  const count = useCountUp(valor, 1800, visible)
 
   return (
     <div className={styles.dato}>
@@ -97,27 +89,31 @@ const perfilEgresado = [
 
 // ─── Componente principal ───────────────────────────────
 export default function PlanEstudios() {
-  const sectionRef  = useRef<HTMLDivElement>(null)
-  const startFnsRef = useRef<(() => void)[]>([])
-
-  const registrarStart = (fn: () => void) => {
-    startFnsRef.current.push(fn)
-  }
+  const [visible, setVisible] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+
+    // Si ya está visible al cargar (reload con scroll), activa inmediato
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setVisible(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Dispara todas las animaciones a la vez
-          startFnsRef.current.forEach(fn => fn())
-          // Deja de observar — solo anima una vez
+          setVisible(true)
           observer.disconnect()
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     )
 
-    if (sectionRef.current) observer.observe(sectionRef.current)
+    observer.observe(el)
     return () => observer.disconnect()
   }, [])
 
@@ -133,26 +129,26 @@ export default function PlanEstudios() {
             valor={7}
             etiqueta="Años de duración"
             nota="14 semestres académicos"
-            onReady={registrarStart}
+            visible={visible}
           />
           <DatoAnimado
             valor={programa.creditos}
             etiqueta="Total de créditos"
             nota="Obligatorios + Electivos"
-            onReady={registrarStart}
+            visible={visible}
           />
           <DatoAnimado
             valor={100}
             sufijo="%"
             etiqueta="Titulados por tesis"
             nota={`${programa.grado} + ${programa.titulo}`}
-            onReady={registrarStart}
+            visible={visible}
           />
           <DatoAnimado
             valor={14}
             etiqueta="Créditos Anatomía"
             nota="Asignatura anual, 2.° año"
-            onReady={registrarStart}
+            visible={visible}
           />
         </div>
 
